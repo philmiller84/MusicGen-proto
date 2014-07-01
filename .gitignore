@@ -37,3 +37,12 @@ Icon
 
 # Files that are backups
 *.~ml
+
+# NetBeans files and folders
+manifest.mf
+build.xml
+nbproject
+build
+
+
+
