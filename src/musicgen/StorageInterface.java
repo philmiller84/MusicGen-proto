@@ -10,4 +10,14 @@ package musicgen;
  *
  * @author Phil
  */
-public enum PitchType { FREQUENCY, MIDINOTE }
+public interface StorageInterface {
+    
+    public void Insert(Event e);
+    
+    public void Delete(Event e);
+    
+    public Event GetNext();
+
+    public Event GetPrevious();
+    
+}

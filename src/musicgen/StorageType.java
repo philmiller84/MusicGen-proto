@@ -10,4 +10,6 @@ package musicgen;
  *
  * @author Phil
  */
-public enum PitchType { FREQUENCY, MIDINOTE }
+public enum StorageType {  ARRAYLIST, TREESET 
+
+}

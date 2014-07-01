@@ -18,7 +18,6 @@ public class NoteEvent extends TypedEvent {
 //    private int value;
 //    private PitchType pitchType;
 //            
-
 //    
     
     public NoteEvent(Pitch pitch)

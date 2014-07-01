@@ -10,4 +10,10 @@ package musicgen;
  *
  * @author Phil
  */
-public enum PitchType { FREQUENCY, MIDINOTE }
+public class ScaleDegree {
+    
+    private int degreeValue;
+    
+    
+    
+}

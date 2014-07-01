@@ -9,27 +9,49 @@ package musicgen;
 //
 //
 
+import java.util.ArrayList;
+import java.util.TreeSet;
 
 
 
-public class EventCollection {
-	public Object list;
-	public Object array;
-	public Object tree;
+public class EventCollection  {
+    
+
+    
+    private StorageInterface storage;
+    private StorageType storageType;
+    
+    public EventCollection(StorageType storageType) {
+        this.storageType = storageType;
+        switch (this.storageType)
+        {
+            case ARRAYLIST:
+                storage = new ArrayListStorage();
+                break;
+            case TREESET:
+                storage = new TreeSetStorage();
+                break;
+        }
+
+    }
+    
+    public void Insert(Event e) {
+        storage.Insert(e);
+    }
+    
+    public void Delete(Event e) {
+        storage.Delete(e);
+    }
+	
+    public void GetNext() {
+	
+    }
+	
+    public void GetPrevious() {
+	
+    }
         
-	public void Insert(Event e) {
-	
-	}
-	
-	public void Delete() {
-	
-	}
-	
-	public void GetNext() {
-	
-	}
-	
-	public void GetPrevious() {
-	
-	}
+    public void ChangeStorageType(){
+            
+    }
 }

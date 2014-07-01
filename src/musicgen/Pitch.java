@@ -1,4 +1,5 @@
 package musicgen;
+import java.lang.Math;
 
 //
 //
@@ -22,15 +23,32 @@ public class Pitch {
             this.pitchType = pitchType;    
         }
         
+        public String toString()
+        {
+//            return String.valueOf(FrequencyToMidi(440));
+            return String.valueOf(MidiToFrequency(69));
+        }
+        
         public double FrequencyToMidi(double frequency)
         {
             double midiValue = 0.0;
-            
-            
+            double x = frequency/440;
+            double logBase2_of_X = Math.log(x) / Math.log(2);
+                    
+            midiValue = 12* logBase2_of_X + 69;           
             
             return midiValue;
         }
         
+        public double MidiToFrequency(double midiValue)
+        {
+            double frequency = 0.0;            
+            double distanceFromA440 = midiValue - 69;            
+            
+            frequency = Math.pow(2, distanceFromA440/ 12) * (440);
+
+            return frequency;
+        }
 	public double GetMIDIValue() {
 	
             double midiValue = 0.0;
@@ -42,21 +60,29 @@ public class Pitch {
                     break;
                     
                 case FREQUENCY:
-                    break;
-                    
-                case SCALEDEGREE:
-                    break;
-                    
-                case CHORDDEGREE:
+                    midiValue = FrequencyToMidi(value);
                     break;
             }
             
             return midiValue;
         }
 	
-	public void GetFrequencyValue() {
-	
-	}
+	public double GetFrequencyValue() {
+            
+            double frequency = 0.0;
+            switch (pitchType)
+            {
+                case FREQUENCY:
+                    frequency = value;
+                    break;
+                    
+                case MIDINOTE:
+                    frequency = MidiToFrequency(value);
+                    break;
+            }
+            
+            return frequency;
+        }
 	
 	public void GetScaleDegree() {
 	

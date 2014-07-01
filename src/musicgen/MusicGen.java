@@ -16,12 +16,13 @@ public class MusicGen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
-        // TODO code application logic here
+
+        EventCollection  collection = new EventCollection(StorageType.ARRAYLIST);
+        Pitch pitch = new Pitch(60, PitchType.MIDINOTE);
+        NoteEvent noteEvent = new NoteEvent(pitch);
+
+        System.out.printf("%s\n", pitch.toString());
         
-        EventCollection  a = new EventCollection();
-        Pitch p = new Pitch(60, PitchType.MIDINOTE);
-        NoteEvent e = new NoteEvent(p);
-        a.Insert(e);       
+        collection.Insert(noteEvent);       
     }
-    
 }
