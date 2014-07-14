@@ -14,15 +14,16 @@ package musicgen;
 public class NoteEvent extends TypedEvent {
 
     private Pitch pitch;
-//    //public enum PitchType { FREQUENCY, MIDINOTE, SCALEDEGREE, HARMONICDEGREE };
-//    private int value;
-//    private PitchType pitchType;
-//            
-//    
+
     
     public NoteEvent(Pitch pitch)
     {
         this.pitch = pitch;    
+        this.eventTypeName = "Note";
     }
     
+    public Pitch GetPitch()
+    {
+        return pitch;
+    }
 }

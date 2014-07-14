@@ -25,8 +25,7 @@ public class Pitch {
         
         public String toString()
         {
-//            return String.valueOf(FrequencyToMidi(440));
-            return String.valueOf(MidiToFrequency(69));
+            return (String.valueOf(value) + " " +  String.valueOf(pitchType));
         }
         
         public double FrequencyToMidi(double frequency)

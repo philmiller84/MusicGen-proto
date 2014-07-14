@@ -15,20 +15,28 @@ package musicgen;
 
 
 public class Line {
-	public Object eventCollection;
-	public void Insert() {
-	
+	private EventCollection eventCollection;
+        
+        public Line(StorageType storageType){
+            
+            eventCollection = new EventCollection(storageType);
+        }
+        
+	public void Insert(Event insertEvent, Event relativeEvent, 
+            PositionType positionType) {
+            
+            eventCollection.Insert(insertEvent, relativeEvent, positionType);
 	}
 	
-	public void Delete() {
-	
+	public void Delete(Event e) {
+            eventCollection.Delete(e);
 	}
 	
-	public void GetNext() {
-	
+	public void GetNext(Event e) {
+            eventCollection.GetNext(e);	
 	}
 	
-	public void GetPrevious() {
-	
+	public void GetPrevious(Event e) {
+            eventCollection.GetPrevious(e);
 	}
 }

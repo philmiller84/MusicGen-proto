@@ -6,26 +6,81 @@
 
 package musicgen;
 
+import java.util.ArrayList;
+
 /**
  *
  * @author Phil
  */
 public class ArrayListStorage  implements StorageInterface{
     
-    public void Insert(Event e){
+    private ArrayList <Event> eventList;
+    
+    public ArrayListStorage () {
+        eventList = new ArrayList <>();
+    }
+            
+    @Override
+    public void Insert(Event insertEvent, Event relativeEvent, 
+            PositionType positionType){
         
+        boolean relativeEventExists = relativeEvent != null;
+        int relativeEventIndex = -1;
+        if(relativeEventExists){
+            relativeEventIndex = eventList.indexOf(relativeEvent);
+        }
+        
+        switch(positionType)
+        {
+            case BEFORE:
+                if( relativeEventIndex != -1){
+                    eventList.add(relativeEventIndex, insertEvent);
+                }
+                break;
+            case AFTER:
+                if( relativeEventIndex != -1){
+                    eventList.add(relativeEventIndex + 1, insertEvent);
+                }
+                break;
+            case BEGINNING:
+                eventList.add(0, insertEvent);
+                break;
+            case END:
+                eventList.add(insertEvent);
+                break;
+        }
     }
     
+    @Override
     public void Delete(Event e){
-        
+        eventList.remove(e);
     }
     
-    public Event GetNext(){
+    @Override
+    public Event GetNext(Event e){
         
+        int currentEventIndex = eventList.indexOf(e);
+        boolean eventExists = (currentEventIndex != -1);
+        
+        if (eventExists &&(eventList.size() > currentEventIndex + 1))
+        {
+            return eventList.get(currentEventIndex + 1);
+        }
+  
+        return null;    
     }
 
-    public Event GetPrevious(){
+    @Override
+    public Event GetPrevious(Event e){
         
+        int currentEventIndex = eventList.indexOf(e);
+        boolean eventExists = (currentEventIndex != -1);
+        
+        if (eventExists && (currentEventIndex > 0))
+        {
+            return eventList.get(currentEventIndex - 1);
+        }
+  
+        return null;   
     }
-    
 }

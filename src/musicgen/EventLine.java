@@ -15,12 +15,14 @@ package musicgen;
 
 
 public class EventLine extends Line {
-	public void EventLine() {
-	
+    
+	public EventLine(StorageType storageType) {
+            
+            super(storageType);
 	}
 	
-	public void AddEventAtPosition() {
-	
+	public void AddEventAtPosition(Event e, PositionType positionType) {
+            Insert(e, null, positionType);
 	}
 	
 	public void GetEventIterator() {

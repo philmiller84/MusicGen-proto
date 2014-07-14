@@ -16,8 +16,6 @@ import java.util.TreeSet;
 
 public class EventCollection  {
     
-
-    
     private StorageInterface storage;
     private StorageType storageType;
     
@@ -32,23 +30,26 @@ public class EventCollection  {
                 storage = new TreeSetStorage();
                 break;
         }
-
     }
     
-    public void Insert(Event e) {
-        storage.Insert(e);
+    public void Insert(Event insertEvent, Event relativeEvent, 
+            PositionType positionType) {
+        
+        storage.Insert(insertEvent, relativeEvent, positionType);
     }
     
     public void Delete(Event e) {
         storage.Delete(e);
     }
 	
-    public void GetNext() {
-	
+    public Event GetNext(Event e) {
+        
+        return storage.GetNext(e);	
     }
 	
-    public void GetPrevious() {
-	
+    public Event GetPrevious(Event e) {
+        
+        return storage.GetPrevious(e);		
     }
         
     public void ChangeStorageType(){

@@ -12,12 +12,13 @@ package musicgen;
  */
 public interface StorageInterface {
     
-    public void Insert(Event e);
+    public void Insert(Event insertEvent, Event relativeEvent, 
+            PositionType positionType);
     
     public void Delete(Event e);
     
-    public Event GetNext();
+    public Event GetNext(Event e);
 
-    public Event GetPrevious();
+    public Event GetPrevious(Event e);
     
 }

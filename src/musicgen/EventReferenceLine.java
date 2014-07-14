@@ -16,4 +16,9 @@ package musicgen;
 
 public class EventReferenceLine extends Line {
 	public Object eventReferenceCollection;
+        
+        public EventReferenceLine(StorageType storageType)
+        {
+            super(storageType);
+        }
 }

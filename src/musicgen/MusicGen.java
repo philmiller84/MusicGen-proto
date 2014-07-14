@@ -16,6 +16,24 @@ public class MusicGen {
      * @param args the command line arguments
      */
     public static void main(String[] args) {
+        
+        EventLine line = new EventLine(StorageType.ARRAYLIST);
+        NoteEvent note1 = null;
+        
+        note1 = new NoteEvent(new Pitch(60, PitchType.MIDINOTE));
+        line.AddEventAtPosition(note1, PositionType.BEGINNING);
+        
+        note1 = new NoteEvent(new Pitch(62, PitchType.MIDINOTE));
+        line.AddEventAtPosition(note1, PositionType.BEGINNING);
+        
+        note1 = new NoteEvent(new Pitch(61, PitchType.MIDINOTE));
+        line.AddEventAtPosition(note1, PositionType.END);
+        
+        
+        
+        System.out.printf("%s\n", note1.GetPitch().GetFrequencyValue());
+        
+        
 
         EventCollection  collection = new EventCollection(StorageType.ARRAYLIST);
         Pitch pitch = new Pitch(60, PitchType.MIDINOTE);
@@ -23,6 +41,7 @@ public class MusicGen {
 
         System.out.printf("%s\n", pitch.toString());
         
-        collection.Insert(noteEvent);       
+        collection.Insert(noteEvent, null, PositionType.BEGINNING);       
     }
 }
+

@@ -15,8 +15,5 @@ package musicgen;
 
 
 public class AggregateEvent extends Event {
-	public Object eventReferenceMap;
-	public void AddReferenceToEvent() {
-	
-	}
+
 }

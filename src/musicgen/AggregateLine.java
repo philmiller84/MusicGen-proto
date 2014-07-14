@@ -15,11 +15,13 @@ package musicgen;
 
 
 public class AggregateLine extends Line {
+    
 	public Object eventReferenceLineCollection;
-	public void AggregateLine() {
-	
-	}
-	
+        
+	public AggregateLine(StorageType storageType)
+        {
+            super(storageType);
+        }
 	public void CreateAggregateFromIterators() {
 	
 	}
