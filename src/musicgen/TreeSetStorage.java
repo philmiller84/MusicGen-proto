@@ -38,5 +38,14 @@ public class TreeSetStorage implements StorageInterface{
     public Event GetPrevious(Event e){
         return null;
     }
+       
+    @Override
+    public Event GetFirst(){
+        return null;
+    }
     
+        @Override
+    public Event GetLast(){
+        return null;
+    }
 }

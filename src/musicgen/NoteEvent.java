@@ -19,7 +19,7 @@ public class NoteEvent extends TypedEvent {
     public NoteEvent(Pitch pitch)
     {
         this.pitch = pitch;    
-        this.eventTypeName = "Note";
+        this.eventTypeName = "NoteEvent";
     }
     
     public Pitch GetPitch()

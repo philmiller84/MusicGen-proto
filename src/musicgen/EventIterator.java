@@ -21,6 +21,41 @@ public class EventIterator {
     {
         this.eventLine = eventLine;
     }
+    
+    public Event FindEvent(Event event){
+
+        // THIS SHOULD BE MOVED TO AN INNER CLASS, PROBABLY STORAGE. 
+        // KEEPING HERE FOR SAKE OF GETTING UP AND RUNNING QUICK. 
+        // MOVE IT WHEN THERE IS TIME!
+
+        boolean foundIt = false;
+        Event searchEvent = null;
+    
+        if(event != null)
+        {
+            searchEvent = eventLine.GetFirstEvent();
+            EventNode searchEventNode  = null;
+            
+            while((searchEvent != null) && (foundIt == false))
+            {
+                if(searchEvent == event)
+                {
+                    foundIt = true;
+                }
+                else
+                {
+                    searchEventNode = searchEvent.GetContainingNode();
+                    
+                    searchEventNode = searchEventNode.GetNextNode();
+                    searchEvent = searchEventNode.GetEvent();
+                }
+            }
+        }
+
+        currentEvent = searchEvent;
+        return searchEvent;
+    }
+    
         
     public void AddEventAtPosition(Event e, PositionType positionType) {
         
@@ -33,7 +68,8 @@ public class EventIterator {
             }
             else
             {
-                //error.
+                //error. WHAT TO DO? Will want to see this fail in testing,
+                // but then what use cases would want this to do something?
             }
         }
         else if ((positionType == PositionType.BEGINNING) ||
@@ -43,36 +79,60 @@ public class EventIterator {
         }
     }
 	
-    public void SetCurrentEvent(Event e){
+    public void SetCurrent(Event e){
         
         this.currentEvent = e;
     }
     
-    public Event GetCurrentEvent(){
+    public Event GetCurrent(){
         
         return this.currentEvent;
     }
     
-    public void FirstEvent(){
-        currentEvent = eventLine.GetFirstEvent();
+    public Event First(){
+        if(eventLine != null)
+        {
+            currentEvent = eventLine.GetFirstEvent();
+        }
+        return currentEvent;
     }
     
-    public void LastEvent(){
-        currentEvent = eventLine.GetLastEvent();
+    public Event Last(){
+        if(eventLine != null)
+        {
+            currentEvent = eventLine.GetLastEvent();
+        }
+        return currentEvent;
     }
     
-    public void NextEvent() {
+    public Event Next() {
 
-        EventNode currentEventNode = currentEvent.GetContainingNode();
-        EventNode nextEventNode = currentEventNode.GetNextNode();
-        currentEvent = nextEventNode.GetEvent();
+        if(currentEvent != null)
+        {
+            EventNode currentEventNode = currentEvent.GetContainingNode();
+            EventNode nextEventNode = currentEventNode.GetNextNode();
+
+            if(nextEventNode != null)
+                currentEvent = nextEventNode.GetEvent();
+            else
+                currentEvent = null;
+        }
+        return currentEvent;
     }
 	
-    public void PrevEvent() {
-           
-        EventNode currentEventNode = currentEvent.GetContainingNode();
-        EventNode prevEventNode = currentEventNode.GetPrevNode();
-        currentEvent = prevEventNode.GetEvent();
+    public Event Prev() {
+        
+        if(currentEvent != null)
+        {
+            EventNode currentEventNode = currentEvent.GetContainingNode();
+            EventNode prevEventNode = currentEventNode.GetPrevNode();
+        
+            if(prevEventNode != null)
+                currentEvent = prevEventNode.GetEvent();
+            else
+                currentEvent = null;
+        }
+        return currentEvent;
     }
     
 }

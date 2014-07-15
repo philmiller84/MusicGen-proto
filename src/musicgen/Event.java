@@ -15,8 +15,6 @@ import java.util.HashMap;
 //
 
 
-
-
 public class Event {
     
     protected EventNode containingNode;
