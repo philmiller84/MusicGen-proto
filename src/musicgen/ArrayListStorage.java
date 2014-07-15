@@ -14,57 +14,116 @@ import java.util.ArrayList;
  */
 public class ArrayListStorage  implements StorageInterface{
     
-    private ArrayList <Event> eventList;
+    private ArrayList <EventNode> eventNodeList;
     
     public ArrayListStorage () {
-        eventList = new ArrayList <>();
+        eventNodeList = new ArrayList <>();
     }
             
     @Override
     public void Insert(Event insertEvent, Event relativeEvent, 
             PositionType positionType){
         
-        boolean relativeEventExists = relativeEvent != null;
+        
+        EventNode relativeEventNode = null;   
         int relativeEventIndex = -1;
-        if(relativeEventExists){
-            relativeEventIndex = eventList.indexOf(relativeEvent);
+        
+        if(positionType == PositionType.BEGINNING)
+        {
+            if(eventNodeList.size() > 0)
+            {
+                relativeEventNode = eventNodeList.get(0);
+                relativeEvent = relativeEventNode.GetEvent();
+            }
         }
+          
+        if(positionType == PositionType.END)
+        {
+            if(eventNodeList.size() > 0)
+            {
+                relativeEventNode = eventNodeList.get(eventNodeList.size() - 1);
+                relativeEvent = relativeEventNode.GetEvent();
+            }
+        }
+                
+        boolean relativeEventExists = (relativeEventNode != null);
+        
+        if(relativeEventExists){
+            relativeEventNode = relativeEvent.GetContainingNode();
+            relativeEventIndex = eventNodeList.indexOf(relativeEventNode);
+        }
+        
+        EventNode insertEventNode = new EventNode(insertEvent);
+        
+        insertEvent.SetContainingNode(insertEventNode);
+        int insertEventIndex = -1;
         
         switch(positionType)
         {
             case BEFORE:
                 if( relativeEventIndex != -1){
-                    eventList.add(relativeEventIndex, insertEvent);
+                    insertEventIndex = relativeEventIndex;
                 }
                 break;
             case AFTER:
                 if( relativeEventIndex != -1){
-                    eventList.add(relativeEventIndex + 1, insertEvent);
+                    insertEventIndex = relativeEventIndex + 1;
                 }
                 break;
             case BEGINNING:
-                eventList.add(0, insertEvent);
+                insertEventIndex = 0;
                 break;
             case END:
-                eventList.add(insertEvent);
+                insertEventIndex = eventNodeList.size();
                 break;
         }
+         
+        if(relativeEventIndex != -1)
+        {
+            EventNode temp = relativeEventNode.GetPrevNode();
+            if(temp != null)
+            {
+                temp.SetNextNode(insertEventNode);
+                insertEventNode.SetPrevNode(temp);
+            }
+            relativeEventNode.SetPrevNode(insertEventNode);            
+        }
+
+        eventNodeList.add(insertEventIndex, insertEventNode);
     }
     
     @Override
     public void Delete(Event e){
-        eventList.remove(e);
+        
+        EventNode currentEventNode = e.GetContainingNode();
+        
+        EventNode nextEventNode = currentEventNode.GetNextNode();
+        EventNode prevEventNode = currentEventNode.GetPrevNode();
+                
+        if(prevEventNode != null)
+        {
+            prevEventNode.SetNextNode(nextEventNode);
+        }
+             
+        if(nextEventNode != null)
+        {
+            nextEventNode.SetPrevNode(prevEventNode);
+        }
+        
+        eventNodeList.remove(e);
     }
     
     @Override
     public Event GetNext(Event e){
         
-        int currentEventIndex = eventList.indexOf(e);
+        EventNode currentEventNode = e.GetContainingNode();
+        int currentEventIndex = eventNodeList.indexOf(currentEventNode);
+        
         boolean eventExists = (currentEventIndex != -1);
         
-        if (eventExists &&(eventList.size() > currentEventIndex + 1))
+        if (eventExists &&(eventNodeList.size() > currentEventIndex + 1))
         {
-            return eventList.get(currentEventIndex + 1);
+            return eventNodeList.get(currentEventIndex + 1).GetEvent();
         }
   
         return null;    
@@ -73,12 +132,13 @@ public class ArrayListStorage  implements StorageInterface{
     @Override
     public Event GetPrevious(Event e){
         
-        int currentEventIndex = eventList.indexOf(e);
+        EventNode currentEventNode = e.GetContainingNode();        
+        int currentEventIndex = eventNodeList.indexOf(currentEventNode);
         boolean eventExists = (currentEventIndex != -1);
         
         if (eventExists && (currentEventIndex > 0))
         {
-            return eventList.get(currentEventIndex - 1);
+            return eventNodeList.get(currentEventIndex - 1).GetEvent();
         }
   
         return null;   

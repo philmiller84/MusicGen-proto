@@ -18,28 +18,40 @@ import java.util.HashMap;
 
 
 public class Event {
-	protected String eventTypeName;        
-        private HashMap <String, Event> referenceMap;
+    
+    protected EventNode containingNode;
+    protected String eventTypeName;        
+    private HashMap <String, Event> referenceMap;
         
-        public void AddReferenceToEvent(Event e) {
-            
-            String eventType = e.GetEventType();
-            referenceMap.put(eventType, e);            
-	}
-        
-	public void Create() {
+    public void AddReferenceToEvent(Event e) {
+          
+        String eventType = e.GetEventType();
+        referenceMap.put(eventType, e);            
+    }       
 	
-	}
+    public void Create() {
 	
-	public void Set() {
+    }	
+
+    public void Set() {
+
+    }
 	
-	}
+    public void Get() {
 	
-	public void Get() {
-	
-	}
-	
-	public String GetEventType() {
-            return eventTypeName;	
-	}
+    }
+    
+    public EventNode GetContainingNode(){
+
+        return this.containingNode;
+    }
+    
+    public void SetContainingNode(EventNode containingNode){
+
+        this.containingNode = containingNode;
+    }
+    public String GetEventType() {
+       
+        return eventTypeName;	
+    }
 }

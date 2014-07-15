@@ -22,7 +22,16 @@ public class EventLine extends Line {
 	}
 	
 	public void AddEventAtPosition(Event e, PositionType positionType) {
-            Insert(e, null, positionType);
+
+            if((positionType == PositionType.BEGINNING )||
+                    (positionType == PositionType.END))
+            {
+                Insert(e, null, positionType);
+            }
+            else
+            {
+                //error.
+            }
 	}
 	
 	public void GetEventIterator() {

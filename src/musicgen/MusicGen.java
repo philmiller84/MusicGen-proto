@@ -26,10 +26,10 @@ public class MusicGen {
         note1 = new NoteEvent(new Pitch(62, PitchType.MIDINOTE));
         line.AddEventAtPosition(note1, PositionType.BEGINNING);
         
-        note1 = new NoteEvent(new Pitch(61, PitchType.MIDINOTE));
-        line.AddEventAtPosition(note1, PositionType.END);
+        NoteEvent note2 = new NoteEvent(new Pitch(61, PitchType.MIDINOTE));
+        line.AddEventAtPosition(note1, PositionType.AFTER);
         
-        
+         
         
         System.out.printf("%s\n", note1.GetPitch().GetFrequencyValue());
         

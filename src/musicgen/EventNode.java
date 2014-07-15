@@ -1,0 +1,62 @@
+/*
+ * To change this license header, choose License Headers in Project Properties.
+ * To change this template file, choose Tools | Templates
+ * and open the template in the editor.
+ */
+
+package musicgen;
+
+/**
+ *
+ * @author Phil
+ */
+public class EventNode {
+    
+    private Event event;
+    private EventNode nextNode;
+    private EventNode prevNode;
+    private EventNode parentNode;
+    
+    public EventNode(Event event){
+        
+        this.event = event;        
+    }
+    
+    public void SetNextNode(EventNode nextNode){
+        
+        this.nextNode = nextNode;        
+    }
+    public void SetPrevNode(EventNode prevNode){
+        
+        this.prevNode = prevNode;        
+    }
+    
+    public void SetParentNode(EventNode parentNode){
+        
+        this.parentNode = parentNode;
+    }
+       
+    public EventNode GetNextNode(){
+        
+        return this.nextNode;      
+    }
+    public EventNode GetPrevNode(){
+        
+        return this.prevNode;    
+    }
+    
+    public EventNode GetParentNode(){
+        
+        return this.parentNode;
+    }
+    
+    public void SetEvent(Event event){
+        
+        this.event = event;
+    }
+    public Event GetEvent(){
+        
+        return this.event;
+    }
+    
+}
