@@ -19,12 +19,11 @@ public class Event {
     
     protected EventNode containingNode;
     protected String eventTypeName;        
-    private HashMap <String, Event> referenceMap;
+    private EventReferenceMap referenceMap;
         
     public void AddReferenceToEvent(Event e) {
           
-        String eventType = e.GetEventType();
-        referenceMap.put(eventType, e);            
+        referenceMap.AddReferenceByType(e);
     }       
 	
     public void Create() {

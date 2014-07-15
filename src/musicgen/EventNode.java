@@ -35,6 +35,27 @@ public class EventNode {
         
         this.parentNode = parentNode;
     }
+    
+    public EventNode GetByPositionType(PositionType positionType){
+        
+        EventNode searchNode = null;
+        switch(positionType)
+        {
+            case NEXT:
+            case AFTER:
+                searchNode = GetNextNode();
+                break;
+            case PREV:
+            case BEFORE:
+                searchNode = GetPrevNode();
+                break;
+            case AT:
+                searchNode = this;
+                break;
+        }
+        
+        return searchNode;
+    }
        
     public EventNode GetNextNode(){
         

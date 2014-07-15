@@ -51,7 +51,8 @@ public class EventLine {
 	
 	public EventIterator GetEventIterator() {
             
-            //WILL THIS CAUSE A MEMORY LEAK? OR WILL JAVA FIND AND DESTROY?
+            // WILL THIS CAUSE A MEMORY LEAK? OR WILL JAVA FIND AND DESTROY?
+            // WE WILL SEE.
             EventIterator createEventIterator = new EventIterator(this);
             return createEventIterator;
 	}

@@ -10,4 +10,4 @@ package musicgen;
  *
  * @author Phil
  */
-public enum PositionType { BEGINNING, END, BEFORE, AFTER }
+public enum PositionType { BEGINNING, END, BEFORE, AFTER, AT, NEXT, PREV }

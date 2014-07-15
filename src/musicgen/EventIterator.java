@@ -89,6 +89,29 @@ public class EventIterator {
         return this.currentEvent;
     }
     
+    public Event GetByPositionType(PositionType positionType)
+    {
+        Event searchEvent = null;
+        switch(positionType)
+        {
+            case BEGINNING:
+                searchEvent = First();
+                break;
+            case END:
+                searchEvent = Last();
+                break;
+            case PREV:
+            case BEFORE:
+                searchEvent = Prev(); 
+                break;
+            case NEXT:
+            case AFTER:
+                searchEvent = Next();
+                break;
+        }
+        return searchEvent;
+    }
+    
     public Event First(){
         if(eventLine != null)
         {
