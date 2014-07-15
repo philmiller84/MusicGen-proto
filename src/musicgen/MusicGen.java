@@ -40,13 +40,36 @@ public class MusicGen {
         iter.SetCurrentEvent(note2);
         iter.AddEventAtPosition(note3, PositionType.BEFORE);
         
-        
-         
-        
         System.out.printf("%s\n", note1.GetPitch().GetFrequencyValue());
-        
-        
 
+        
+        NoteEvent iterNote = null;
+        
+        iter.FirstEvent();
+        iterNote = (NoteEvent) iter.GetCurrentEvent();
+        System.out.printf("%s\n", iterNote.GetPitch().GetFrequencyValue());
+        
+        iter.PrevEvent();
+        iterNote = (NoteEvent) iter.GetCurrentEvent();
+        System.out.printf("%s\n", iterNote.GetPitch().GetFrequencyValue());
+
+        iter.PrevEvent();
+        iterNote = (NoteEvent) iter.GetCurrentEvent();
+        System.out.printf("%s\n", iterNote.GetPitch().GetFrequencyValue());
+
+        iter.NextEvent();
+        iterNote = (NoteEvent) iter.GetCurrentEvent();
+        System.out.printf("%s\n", iterNote.GetPitch().GetFrequencyValue());
+
+        iter.PrevEvent();
+        iterNote = (NoteEvent) iter.GetCurrentEvent();
+        System.out.printf("%s\n", iterNote.GetPitch().GetFrequencyValue());
+
+        
+        
+        
+        
+        
         EventCollection  collection = new EventCollection(StorageType.ARRAYLIST);
         Pitch pitch = new Pitch(60, PitchType.MIDINOTE);
         NoteEvent noteEvent = new NoteEvent(pitch);

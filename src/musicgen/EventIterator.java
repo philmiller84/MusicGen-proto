@@ -53,22 +53,26 @@ public class EventIterator {
         return this.currentEvent;
     }
     
-    public Event GetNextEvent() {
+    public void FirstEvent(){
+        currentEvent = eventLine.GetFirstEvent();
+    }
+    
+    public void LastEvent(){
+        currentEvent = eventLine.GetLastEvent();
+    }
+    
+    public void NextEvent() {
 
         EventNode currentEventNode = currentEvent.GetContainingNode();
         EventNode nextEventNode = currentEventNode.GetNextNode();
-        Event nextEvent = nextEventNode.GetEvent();
-        
-        return nextEvent;
+        currentEvent = nextEventNode.GetEvent();
     }
 	
-    public Event GetPreviousEvent() {
+    public void PrevEvent() {
            
         EventNode currentEventNode = currentEvent.GetContainingNode();
         EventNode prevEventNode = currentEventNode.GetPrevNode();
-        Event prevEvent = prevEventNode.GetEvent();
-        
-        return prevEvent;
+        currentEvent = prevEventNode.GetEvent();
     }
     
 }

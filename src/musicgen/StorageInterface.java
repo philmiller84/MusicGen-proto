@@ -22,5 +22,9 @@ public interface StorageInterface {
     public Event GetNext(Event e);
 
     public Event GetPrevious(Event e);
+
+    public Event GetFirst();
+
+    public Event GetLast();
     
 }

@@ -177,4 +177,28 @@ public class ArrayListStorage  implements StorageInterface{
   
         return null;   
     }
+    
+    public Event GetFirst(){
+    
+        Event firstEvent = null;
+        
+        if(eventNodeList.size() > 0 )
+        {
+            firstEvent = eventNodeList.get(0).GetEvent();
+        }
+        
+        return firstEvent;
+    }
+    
+    public Event GetLast(){
+    
+        Event lastEvent = null;
+        
+        if(eventNodeList.size() > 0 )
+        {
+            lastEvent = eventNodeList.get(eventNodeList.size() - 1).GetEvent();
+        }
+        
+        return lastEvent;
+    }
 }

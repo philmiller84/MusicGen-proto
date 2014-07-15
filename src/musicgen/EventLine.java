@@ -27,7 +27,6 @@ public class EventLine {
             eventCollection.InsertRelative(insertEvent, relativeEvent,
                     positionType);
 	}
-        
                 
 	public void InsertIrrelative(Event insertEvent, 
                 PositionType positionType) {
@@ -39,14 +38,21 @@ public class EventLine {
             eventCollection.Delete(e);
 	}
 	
-	public void GetNext(Event e) {
-            eventCollection.GetNext(e);	
-	}
-	
-	public void GetPrevious(Event e) {
-            eventCollection.GetPrevious(e);
-	}
+//	public void GetNext(Event e) {
+//            eventCollection.GetNext(e);	
+//	}
+//	
+//	public void GetPrevious(Event e) {
+//            eventCollection.GetPrevious(e);
+//	}
 
+        public Event GetFirstEvent(){
+            return eventCollection.GetFirst();
+        }
+        
+        public Event GetLastEvent(){
+            return eventCollection.GetLast();
+        }
 	
 	public void GetEventIterator() {
 	

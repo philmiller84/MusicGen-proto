@@ -19,6 +19,9 @@ public class EventCollection  {
     private StorageInterface storage;
     private StorageType storageType;
     
+    Event firstEvent;
+    Event lastEvent;
+    
     public EventCollection(StorageType storageType) {
         this.storageType = storageType;
         switch (this.storageType)
@@ -36,15 +39,18 @@ public class EventCollection  {
             PositionType positionType) {
         
         storage.InsertRelative(insertEvent, relativeEvent, positionType);
+        UpdateFirstLast();
     }
     
     public void InsertIrrelative(Event insertEvent, PositionType positionType) {
         
         storage.InsertIrrelative(insertEvent, positionType);
+        UpdateFirstLast();
     }
     
     public void Delete(Event e) {
         storage.Delete(e);
+        UpdateFirstLast();
     }
 	
     public Event GetNext(Event e) {
@@ -56,8 +62,23 @@ public class EventCollection  {
         
         return storage.GetPrevious(e);		
     }
+    
+    public Event GetFirst() {
         
+        return firstEvent;
+    }
+    
+    public Event GetLast() {
+        
+        return lastEvent;
+    }
     public void ChangeStorageType(){
             
+    }
+    
+    private void UpdateFirstLast(){
+        this.firstEvent = storage.GetFirst();
+        this.lastEvent = storage.GetLast();
+        
     }
 }
