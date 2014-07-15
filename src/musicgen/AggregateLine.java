@@ -14,7 +14,7 @@ package musicgen;
 
 
 
-public class AggregateLine extends Line {
+public class AggregateLine extends EventLine {
     
 	public Object eventReferenceLineCollection;
         

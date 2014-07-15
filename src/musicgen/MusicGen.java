@@ -17,17 +17,29 @@ public class MusicGen {
      */
     public static void main(String[] args) {
         
+        
+        
         EventLine line = new EventLine(StorageType.ARRAYLIST);
+        EventIterator iter = new EventIterator(line);
         NoteEvent note1 = null;
         
-        note1 = new NoteEvent(new Pitch(60, PitchType.MIDINOTE));
-        line.AddEventAtPosition(note1, PositionType.BEGINNING);
+        note1 = new NoteEvent(new Pitch(61, PitchType.MIDINOTE));
+        iter.AddEventAtPosition(note1, PositionType.BEGINNING);
         
-        note1 = new NoteEvent(new Pitch(62, PitchType.MIDINOTE));
-        line.AddEventAtPosition(note1, PositionType.BEGINNING);
+        note1 = new NoteEvent(new Pitch(59, PitchType.MIDINOTE));
+        iter.AddEventAtPosition(note1, PositionType.BEGINNING);
         
-        NoteEvent note2 = new NoteEvent(new Pitch(61, PitchType.MIDINOTE));
-        line.AddEventAtPosition(note1, PositionType.AFTER);
+        NoteEvent note2 = new NoteEvent(new Pitch(62, PitchType.MIDINOTE));
+        iter.SetCurrentEvent(note1);
+        iter.AddEventAtPosition(note2, PositionType.AFTER);
+        
+        note1 = new NoteEvent(new Pitch(63, PitchType.MIDINOTE));
+        iter.AddEventAtPosition(note1, PositionType.END);
+        
+        NoteEvent note3 = new NoteEvent(new Pitch(73, PitchType.MIDINOTE));
+        iter.SetCurrentEvent(note2);
+        iter.AddEventAtPosition(note3, PositionType.BEFORE);
+        
         
          
         
@@ -41,7 +53,7 @@ public class MusicGen {
 
         System.out.printf("%s\n", pitch.toString());
         
-        collection.Insert(noteEvent, null, PositionType.BEGINNING);       
+//        collection.Insert(noteEvent, null, PositionType.BEGINNING);       
     }
 }
 

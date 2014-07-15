@@ -32,10 +32,15 @@ public class EventCollection  {
         }
     }
     
-    public void Insert(Event insertEvent, Event relativeEvent, 
+    public void InsertRelative(Event insertEvent, Event relativeEvent, 
             PositionType positionType) {
         
-        storage.Insert(insertEvent, relativeEvent, positionType);
+        storage.InsertRelative(insertEvent, relativeEvent, positionType);
+    }
+    
+    public void InsertIrrelative(Event insertEvent, PositionType positionType) {
+        
+        storage.InsertIrrelative(insertEvent, positionType);
     }
     
     public void Delete(Event e) {

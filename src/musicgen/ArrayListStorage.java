@@ -21,32 +21,13 @@ public class ArrayListStorage  implements StorageInterface{
     }
             
     @Override
-    public void Insert(Event insertEvent, Event relativeEvent, 
+    public void InsertRelative(Event insertEvent, Event relativeEvent, 
             PositionType positionType){
-        
         
         EventNode relativeEventNode = null;   
         int relativeEventIndex = -1;
         
-        if(positionType == PositionType.BEGINNING)
-        {
-            if(eventNodeList.size() > 0)
-            {
-                relativeEventNode = eventNodeList.get(0);
-                relativeEvent = relativeEventNode.GetEvent();
-            }
-        }
-          
-        if(positionType == PositionType.END)
-        {
-            if(eventNodeList.size() > 0)
-            {
-                relativeEventNode = eventNodeList.get(eventNodeList.size() - 1);
-                relativeEvent = relativeEventNode.GetEvent();
-            }
-        }
-                
-        boolean relativeEventExists = (relativeEventNode != null);
+        boolean relativeEventExists = (relativeEvent != null);
         
         if(relativeEventExists){
             relativeEventNode = relativeEvent.GetContainingNode();
@@ -54,43 +35,96 @@ public class ArrayListStorage  implements StorageInterface{
         }
         
         EventNode insertEventNode = new EventNode(insertEvent);
-        
         insertEvent.SetContainingNode(insertEventNode);
+
         int insertEventIndex = -1;
         
-        switch(positionType)
+        if (relativeEventIndex != -1)
         {
-            case BEFORE:
-                if( relativeEventIndex != -1){
-                    insertEventIndex = relativeEventIndex;
-                }
-                break;
-            case AFTER:
-                if( relativeEventIndex != -1){
-                    insertEventIndex = relativeEventIndex + 1;
-                }
-                break;
-            case BEGINNING:
-                insertEventIndex = 0;
-                break;
-            case END:
-                insertEventIndex = eventNodeList.size();
-                break;
-        }
-         
-        if(relativeEventIndex != -1)
-        {
-            EventNode temp = relativeEventNode.GetPrevNode();
-            if(temp != null)
+            EventNode newPrevEventNode = null;
+            EventNode newNextEventNode = null;
+            
+            switch(positionType)
             {
-                temp.SetNextNode(insertEventNode);
-                insertEventNode.SetPrevNode(temp);
+                case BEFORE:
+                    insertEventIndex = relativeEventIndex;
+                    newNextEventNode = relativeEventNode;
+                    newPrevEventNode = relativeEventNode.GetPrevNode();                    
+                    break;
+                case AFTER:
+                    insertEventIndex = relativeEventIndex + 1;
+                    newPrevEventNode = relativeEventNode;
+                    newNextEventNode = relativeEventNode.GetNextNode();
+                    break;
             }
-            relativeEventNode.SetPrevNode(insertEventNode);            
+            
+            if(newNextEventNode != null)
+            {
+                insertEventNode.SetNextNode(newNextEventNode);
+                newNextEventNode.SetPrevNode(insertEventNode);
+            }
+            if(newPrevEventNode != null)
+            {
+                insertEventNode.SetPrevNode(newPrevEventNode);
+                newPrevEventNode.SetNextNode(insertEventNode);
+            }
         }
 
         eventNodeList.add(insertEventIndex, insertEventNode);
     }
+        
+    @Override
+    public void InsertIrrelative(Event insertEvent, PositionType positionType){
+
+        EventNode newPrevEventNode = null;
+        EventNode newNextEventNode = null;
+
+        if(positionType == PositionType.BEGINNING)
+        {
+            if(eventNodeList.size() > 0)
+            {
+                newNextEventNode = eventNodeList.get(0);
+           }
+        }
+
+        if(positionType == PositionType.END)
+        {
+            if(eventNodeList.size() > 0)
+             {
+                newPrevEventNode = eventNodeList.get(eventNodeList.size() - 1);
+            }
+        }
+
+        boolean newPrevEventNodeExists = (newPrevEventNode != null);
+        boolean newNextEventNodeExists = (newNextEventNode != null);
+
+        int insertEventIndex = -1;
+        EventNode insertEventNode = new EventNode(insertEvent);
+        insertEvent.SetContainingNode(insertEventNode);
+
+        switch(positionType)
+        {
+            case BEGINNING:
+                insertEventIndex = 0;
+                break;
+            case END:
+                 insertEventIndex = eventNodeList.size();
+                break;
+        }
+
+        if(newPrevEventNodeExists)
+        {
+            insertEventNode.SetPrevNode(newPrevEventNode);
+            newPrevEventNode.SetNextNode(insertEventNode);
+        }
+        if(newNextEventNodeExists)
+        {
+            newNextEventNode.SetPrevNode(insertEventNode);
+            insertEventNode.SetNextNode(newNextEventNode);
+        }
+
+         eventNodeList.add(insertEventIndex, insertEventNode);
+     }
     
     @Override
     public void Delete(Event e){

@@ -14,7 +14,7 @@ package musicgen;
 
 
 
-public class EventReferenceLine extends Line {
+public class EventReferenceLine extends EventLine {
 	public Object eventReferenceCollection;
         
         public EventReferenceLine(StorageType storageType)

@@ -14,8 +14,13 @@ package musicgen;
 public class TreeSetStorage implements StorageInterface{
     
     @Override
-    public void Insert(Event insertEvent, Event relativeEvent, 
+    public void InsertRelative(Event insertEvent, Event relativeEvent, 
             PositionType positionType){
+        
+    }
+
+    @Override
+    public void InsertIrrelative(Event insertEvent, PositionType positionType){
         
     }
     

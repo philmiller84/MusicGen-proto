@@ -14,22 +14,45 @@ package musicgen;
 
 public class EventIterator {
 	
-    public Event currentEvent;
+    private Event currentEvent;
+    private EventLine eventLine;
+    
+    public EventIterator(EventLine eventLine)
+    {
+        this.eventLine = eventLine;
+    }
         
-    public void CreateEventAtPosition(PositionType positionType) {
+    public void AddEventAtPosition(Event e, PositionType positionType) {
         
-        if (positionType == PositionType.AFTER)
+        if ((positionType == PositionType.AFTER) ||
+                positionType == PositionType.BEFORE)
         {
+            if(currentEvent != null)
+            {
+                eventLine.InsertRelative(e, currentEvent, positionType);
+            }
+            else
+            {
+                //error.
+            }
         }
-        if (positionType == PositionType.BEFORE)
+        else if ((positionType == PositionType.BEGINNING) ||
+                positionType == PositionType.END)
         {
+            eventLine.InsertIrrelative(e, positionType);
         }
     }
 	
     public void SetCurrentEvent(Event e){
         
-        currentEvent = e;
+        this.currentEvent = e;
     }
+    
+    public Event GetCurrentEvent(){
+        
+        return this.currentEvent;
+    }
+    
     public Event GetNextEvent() {
 
         EventNode currentEventNode = currentEvent.GetContainingNode();

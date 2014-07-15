@@ -12,8 +12,10 @@ package musicgen;
  */
 public interface StorageInterface {
     
-    public void Insert(Event insertEvent, Event relativeEvent, 
+    public void InsertRelative(Event insertEvent, Event relativeEvent, 
             PositionType positionType);
+    
+    public void InsertIrrelative(Event insertEvent, PositionType positionType);
     
     public void Delete(Event e);
     
