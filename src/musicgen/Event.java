@@ -23,7 +23,7 @@ public class Event {
         
     public void AddReferenceToEvent(Event e) {
           
-        referenceMap.AddReferenceByType(e);
+        referenceMap.AddReference(e);
     }       
 	
     public void Create() {

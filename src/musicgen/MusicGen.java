@@ -5,6 +5,9 @@
  */
 
 package musicgen;
+import static musicgen.PositionType.*;
+import static musicgen.StorageType.*;
+import static musicgen.PitchType.*;
 
 /**
  *
@@ -12,45 +15,45 @@ package musicgen;
  */
 public class MusicGen {
 
-    /**
-     * @param args the command line arguments
-     */
     public static void main(String[] args) {
         
         
-        AggregateLine aggrLine = new AggregateLine(StorageType.ARRAYLIST);
+        AggregateLine aggrLine = new AggregateLine(ARRAYLIST);
         
 //        AggregateEvent aggrEvent = new AggregateEvent();
         
-        EventLine line = new EventLine(StorageType.ARRAYLIST);
+        EventLine line = new EventLine(ARRAYLIST);
               
-        NoteEvent note1 = new NoteEvent(new Pitch(70, PitchType.MIDINOTE));
+        NoteEvent note1 = new NoteEvent(new Pitch(70, MIDINOTE));
 
         EventIterator iter = line.GetEventIterator();
-        iter.AddEventAtPosition(note1, PositionType.BEGINNING);
+        iter.AddEventAtPosition(note1, BEGINNING);
       
         iter.SetCurrent(note1);
         
-        NoteEvent note2 = new NoteEvent(new Pitch(61, PitchType.MIDINOTE));
-        NoteEvent note3 = new NoteEvent(new Pitch(62, PitchType.MIDINOTE));
-        NoteEvent note4 = new NoteEvent(new Pitch(64, PitchType.MIDINOTE));
-        NoteEvent note5 = new NoteEvent(new Pitch(67, PitchType.MIDINOTE));
+        NoteEvent note2 = new NoteEvent(new Pitch(61, MIDINOTE));
+        NoteEvent note3 = new NoteEvent(new Pitch(62, MIDINOTE));
+        NoteEvent note4 = new NoteEvent(new Pitch(64, MIDINOTE));
+        NoteEvent note5 = new NoteEvent(new Pitch(67, MIDINOTE));
   
-        iter.AddEventAtPosition(note2, PositionType.BEGINNING);
-        iter.AddEventAtPosition(note3, PositionType.BEGINNING);
-        iter.AddEventAtPosition(note4, PositionType.BEGINNING);
-        iter.AddEventAtPosition(note5, PositionType.BEGINNING);
+        iter.AddEventAtPosition(note2, BEGINNING);
+        iter.AddEventAtPosition(note3, BEGINNING);
+        iter.AddEventAtPosition(note4, BEGINNING);
+        iter.AddEventAtPosition(note5, BEGINNING);
         
-        
-        System.out.printf("%s\n", ((NoteEvent)iter.GetCurrent()).GetPitch().toString());
+        NoteEvent currentNote = (NoteEvent)iter.GetCurrent();
+        String lineName = currentNote.GetContainingNode().GetEventLine().GetLineName();
+        System.out.printf("%s\n", lineName);
+        System.out.printf("%s\n", ((NoteEvent)iter.GetCurrent()).GetPitch().GetFrequencyValue());
 
         
         iter.FindEvent(note3);
 
-               
-        System.out.printf("%s\n", ((NoteEvent)iter.GetCurrent()).GetPitch().toString());
+        currentNote = (NoteEvent)iter.GetCurrent();
+        lineName = currentNote.GetContainingNode().GetEventLine().GetLineName();
+        System.out.printf("%s\n", lineName);
+        System.out.printf("%s\n", ((NoteEvent)iter.GetCurrent()).GetPitch().GetFrequencyValue());
 
-        
         
         
         //create event, then add to aggregate

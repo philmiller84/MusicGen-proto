@@ -13,6 +13,15 @@ package musicgen;
 
 public class TreeSetStorage implements StorageInterface{
     
+    
+    private EventCollection eventCollection;
+    
+    public TreeSetStorage(EventCollection eventCollection){
+        
+        this.eventCollection = eventCollection;
+    }
+    
+    
     @Override
     public void InsertRelative(Event insertEvent, Event relativeEvent, 
             PositionType positionType){
@@ -44,8 +53,15 @@ public class TreeSetStorage implements StorageInterface{
         return null;
     }
     
-        @Override
+        
+    @Override
     public Event GetLast(){
         return null;
     }
+
+    @Override
+    public EventCollection GetContainingCollection(){
+        return this.eventCollection;
+    }
+    
 }

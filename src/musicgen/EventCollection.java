@@ -9,15 +9,11 @@ package musicgen;
 //
 //
 
-import java.util.ArrayList;
-import java.util.TreeSet;
-
-
-
 public class EventCollection  {
     
     private StorageInterface storage;
     private StorageType storageType;
+    private EventLine eventLineReference; //reference
     
     Event firstEvent;
     Event lastEvent;
@@ -27,12 +23,22 @@ public class EventCollection  {
         switch (this.storageType)
         {
             case ARRAYLIST:
-                storage = new ArrayListStorage();
+                storage = new ArrayListStorage(this);
                 break;
             case TREESET:
-                storage = new TreeSetStorage();
+                storage = new TreeSetStorage(this);
                 break;
         }
+    }
+          
+    public void SetEventLine(EventLine eventLine){
+
+        this.eventLineReference = eventLine;
+    }
+    
+    public EventLine GetEventLine(){
+
+        return eventLineReference;
     }
     
     public void InsertRelative(Event insertEvent, Event relativeEvent, 
@@ -77,8 +83,8 @@ public class EventCollection  {
     }
     
     private void UpdateFirstLast(){
+        
         this.firstEvent = storage.GetFirst();
         this.lastEvent = storage.GetLast();
-        
     }
 }

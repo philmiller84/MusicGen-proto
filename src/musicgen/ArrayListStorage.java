@@ -15,9 +15,12 @@ import java.util.ArrayList;
 public class ArrayListStorage  implements StorageInterface{
     
     private ArrayList <EventNode> eventNodeList;
+    private EventCollection eventCollection; //reference
     
-    public ArrayListStorage () {
-        eventNodeList = new ArrayList <>();
+    public ArrayListStorage (EventCollection eventCollection) {
+        
+        this.eventNodeList = new ArrayList <>();
+        this.eventCollection = eventCollection;
     }
             
     @Override
@@ -36,6 +39,7 @@ public class ArrayListStorage  implements StorageInterface{
         
         EventNode insertEventNode = new EventNode(insertEvent);
         insertEvent.SetContainingNode(insertEventNode);
+        insertEventNode.SetStorageReference(this);
 
         int insertEventIndex = -1;
         
@@ -101,6 +105,7 @@ public class ArrayListStorage  implements StorageInterface{
         int insertEventIndex = -1;
         EventNode insertEventNode = new EventNode(insertEvent);
         insertEvent.SetContainingNode(insertEventNode);
+        insertEventNode.SetStorageReference(this);
 
         switch(positionType)
         {
@@ -200,5 +205,11 @@ public class ArrayListStorage  implements StorageInterface{
         }
         
         return lastEvent;
+    }
+    
+    
+    @Override
+    public EventCollection GetContainingCollection(){
+        return this.eventCollection;
     }
 }

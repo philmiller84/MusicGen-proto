@@ -16,7 +16,7 @@ package musicgen;
 
 public class AggregateEvent extends Event {
     
-    public void AggregateEvent(Event correspondingEvent) {
+    public AggregateEvent(Event correspondingEvent) {
 	
         AddReferenceToEvent(correspondingEvent);
     }	

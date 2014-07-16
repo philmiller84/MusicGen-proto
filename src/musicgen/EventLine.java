@@ -19,6 +19,7 @@ public class EventLine {
         public EventLine(StorageType storageType){
             
             eventCollection = new EventCollection(storageType);
+            eventCollection.SetEventLine(this);
             
             lineCount++;
             lineName = "EventLine" + lineCount;
@@ -64,8 +65,5 @@ public class EventLine {
         public String GetLineName() {
             return lineName;
         }
-        
-        
-        
         
 }

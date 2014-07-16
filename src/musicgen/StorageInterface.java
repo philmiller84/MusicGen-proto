@@ -27,4 +27,6 @@ public interface StorageInterface {
 
     public Event GetLast();
     
+    public EventCollection GetContainingCollection();
+    
 }

@@ -16,11 +16,29 @@ public class EventNode {
     private EventNode nextNode;
     private EventNode prevNode;
     private EventNode parentNode;
+    private StorageInterface storageReference;
     
     public EventNode(Event event){
-        
+
         this.event = event;        
     }
+    
+    public void SetStorageReference(StorageInterface storageReference){
+        
+        this.storageReference = storageReference;
+    }
+  
+    public EventLine GetEventLine(){
+        
+        EventLine searchEventLine = null;
+        EventCollection searchEventCollection = null;
+        
+        searchEventCollection = this.storageReference.GetContainingCollection();
+        searchEventLine = searchEventCollection.GetEventLine();
+        
+        return searchEventLine;
+    }
+    
     
     public void SetNextNode(EventNode nextNode){
         
