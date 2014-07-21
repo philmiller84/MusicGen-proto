@@ -2,6 +2,7 @@ package musicgen;
 
 //
 
+import java.util.HashMap;
 import java.util.Map;
 
 //
@@ -21,12 +22,20 @@ public class EventReferenceMap {
     
     private Map <String, Event> map;
     
+    public EventReferenceMap(){
+        this.map = new HashMap();
+    }
+    
     public void AddReference(Event e) {
         String eventLineName = e.containingNode.GetEventLine().GetLineName();
         String eventType = e.GetEventType();
         String eventLineType = eventLineName + "-" + eventType;
       
         map.put(eventLineType, e);      
+    }
+    
+    public boolean ContainsEvent(Event e){
+        return map.containsValue(e);
     }
     
 //    public void AddReferenceByType(Event e) {

@@ -19,6 +19,7 @@ public class EventIterator {
 	
     private Event currentEvent;
     private EventLine eventLine;
+    private AggregateLine aggregateLine;
     
     public EventIterator(EventLine eventLine)
     {
@@ -55,10 +56,103 @@ public class EventIterator {
             }
         }
 
-        currentEvent = searchEvent;
+//        currentEvent = searchEvent;
         return searchEvent;
     }
     
+    
+    public Event FindCorrespondingEvent(Event event){
+
+        boolean foundIt = false;
+        Event searchEvent = null;
+    
+        if(event != null)
+        {
+            searchEvent = eventLine.GetFirstEvent();
+            EventNode searchEventNode  = null;
+            
+            while((searchEvent != null) && (foundIt == false))
+            {
+                if(searchEvent.HasReferenceToEvent(event))
+                {
+                    foundIt = true;
+                }
+                else
+                {
+                    searchEventNode = searchEvent.GetContainingNode();
+                    
+                    searchEventNode = searchEventNode.GetNextNode();
+                    searchEvent = searchEventNode.GetEvent();
+                }
+            }
+        }
+
+//        currentEvent = searchEvent;
+        return searchEvent;
+    }
+    
+    /**
+     * CreateEventAtPosition creates the event in the event line, 
+     * then adds it to the aggregate line for positioning
+     * 
+     * This is the method that should be used by the client, whereas Add is to
+     * be used for internal data structure operation
+     * 
+     * @param e
+     * @param positionType
+     */
+    public void CreateEventAtPosition(Event e, PositionType positionType) {
+        
+        //get aggregate line reference
+        AggregateLine aggrLineRef = eventLine.GetAggregateLine();
+        
+        if ((positionType == AFTER) || 
+                (positionType == BEFORE) ||
+                (positionType == AT))
+        {
+            if(currentEvent != null)
+            {
+                eventLine.InsertRelative(e, currentEvent, positionType);
+
+                //find location in aggregate
+                EventIterator aggrIter;
+                Event searchEvent;
+
+                aggrIter = aggrLineRef.GetEventIterator();
+                searchEvent = aggrIter.FindCorrespondingEvent(currentEvent);
+                
+                if(searchEvent != null)
+                {
+                    //call Add on aggregate
+                    aggrIter.SetCurrent(searchEvent);
+                    if(positionType == AT)
+                    {
+                        //add reference to current event
+                        searchEvent.AddReferenceToEvent(e);
+                    }   
+                    if((positionType == AFTER)||
+                            (positionType == BEFORE))
+                    {
+                        //create new aggregate
+                        AggregateEvent newAggrEvent = new AggregateEvent(e);
+                        aggrIter.AddEventAtPosition(newAggrEvent, positionType);
+                    }
+                }
+            }
+            else
+            {
+                //error. WHAT TO DO? Will want to see this fail in testing,
+                // but then what use cases would want this to do something?
+            }
+        }
+        else if ((positionType == BEGINNING) || positionType == END)
+        {
+            eventLine.InsertIrrelative(e, positionType);
+            AggregateEvent newAggrEvent = new AggregateEvent(e);
+            aggrLineRef.InsertIrrelative(newAggrEvent, positionType);
+            
+        }
+    }
         
     public void AddEventAtPosition(Event e, PositionType positionType) {
         

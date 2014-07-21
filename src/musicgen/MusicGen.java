@@ -19,41 +19,47 @@ public class MusicGen {
         
         
         AggregateLine aggrLine = new AggregateLine(ARRAYLIST);
-        
-//        AggregateEvent aggrEvent = new AggregateEvent();
-        
         EventLine line = new EventLine(ARRAYLIST);
-              
+        line.SetAggregateLine(aggrLine);
+        
+        AggregateLine aggrRef = line.GetAggregateLine();
+        
+        System.out.print(aggrRef.GetLineName() + "\n");
+        
         NoteEvent note1 = new NoteEvent(new Pitch(70, MIDINOTE));
 
         EventIterator iter = line.GetEventIterator();
-        iter.AddEventAtPosition(note1, BEGINNING);
+        iter.CreateEventAtPosition(note1, BEGINNING);
       
-        iter.SetCurrent(note1);
+        iter.SetCurrent(note1); //-----------------------------------------------
         
         NoteEvent note2 = new NoteEvent(new Pitch(61, MIDINOTE));
         NoteEvent note3 = new NoteEvent(new Pitch(62, MIDINOTE));
         NoteEvent note4 = new NoteEvent(new Pitch(64, MIDINOTE));
         NoteEvent note5 = new NoteEvent(new Pitch(67, MIDINOTE));
   
-        iter.AddEventAtPosition(note2, BEGINNING);
-        iter.AddEventAtPosition(note3, BEGINNING);
-        iter.AddEventAtPosition(note4, BEGINNING);
-        iter.AddEventAtPosition(note5, BEGINNING);
+        iter.SetCurrent(note1);
+        iter.CreateEventAtPosition(note2, BEFORE);
+        iter.SetCurrent(note2);
+        iter.CreateEventAtPosition(note3, BEFORE);
+        iter.SetCurrent(note3);
+        iter.CreateEventAtPosition(note4, BEGINNING);
+        iter.CreateEventAtPosition(note5, BEGINNING);
         
-        NoteEvent currentNote = (NoteEvent)iter.GetCurrent();
+        NoteEvent currentNote = (NoteEvent)iter.GetCurrent();        
         String lineName = currentNote.GetContainingNode().GetEventLine().GetLineName();
+        
         System.out.printf("%s\n", lineName);
         System.out.printf("%s\n", ((NoteEvent)iter.GetCurrent()).GetPitch().GetFrequencyValue());
 
         
-        iter.FindEvent(note3);
+        iter.FindEvent(note3);//-----------------------------------------------
 
         currentNote = (NoteEvent)iter.GetCurrent();
         lineName = currentNote.GetContainingNode().GetEventLine().GetLineName();
         System.out.printf("%s\n", lineName);
         System.out.printf("%s\n", ((NoteEvent)iter.GetCurrent()).GetPitch().GetFrequencyValue());
-
+        
         
         
         //create event, then add to aggregate

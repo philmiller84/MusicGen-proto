@@ -20,11 +20,22 @@ public class Event {
     protected EventNode containingNode;
     protected String eventTypeName;        
     private EventReferenceMap referenceMap;
+    
+    public Event(){
+        this.referenceMap = new EventReferenceMap();
+    }
         
     public void AddReferenceToEvent(Event e) {
           
         referenceMap.AddReference(e);
     }       
+    
+    public boolean HasReferenceToEvent(Event e){
+        
+        boolean foundReference = false;
+        foundReference = referenceMap.ContainsEvent(e);        
+        return foundReference;
+    }
 	
     public void Create() {
 	
