@@ -109,4 +109,11 @@ public class AggregateLine extends EventLine {
     public void CreateEventLine() {
 
     }
+    
+    public Event GetEventByLineName(String lineName){
+        Event searchEvent = null;
+        
+        return searchEvent;
+    }
+   
 }

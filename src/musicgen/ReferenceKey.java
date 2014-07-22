@@ -21,6 +21,16 @@ public class ReferenceKey {
         this.eventLine = el;
     }
     
+    public boolean HasEventOfType(String eventType){
+        boolean hasEvent = false;
+        return hasEvent;
+    }
+    
+    public boolean HasEventLineByName(String eventLineName){
+        boolean hasEventLine = false;
+        return hasEventLine;
+    }
+    
     public Event GetEvent(){
         return event;
     }
