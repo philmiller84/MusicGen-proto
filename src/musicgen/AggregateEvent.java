@@ -20,4 +20,5 @@ public class AggregateEvent extends Event {
 	
         AddReferenceToEvent(correspondingEvent);
     }	
+    
 }

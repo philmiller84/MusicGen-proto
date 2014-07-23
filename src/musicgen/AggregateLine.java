@@ -23,9 +23,12 @@ public class AggregateLine extends EventLine {
     public AggregateLine(StorageType storageType)
     {
         super(storageType);
+        
         String aggrLineName = this.GetLineName();
         aggrLineName = aggrLineName.replace("EventLine", "AggrLine");
         this.SetLineName(aggrLineName);
+        
+        eventLineCollection = new HashMap();
     }
     
     public void AddEventLineReference(EventLine eventLine){

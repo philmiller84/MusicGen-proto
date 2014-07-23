@@ -34,6 +34,7 @@ public class EventLine {
         public void SetAggregateLine(AggregateLine aggrLine)
         {
             this.aggregateLine = aggrLine;
+            this.aggregateLine.AddEventLineReference(this);
         }
         
         

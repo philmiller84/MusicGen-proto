@@ -1,6 +1,7 @@
 package musicgen;
 
 import static musicgen.PositionType.*;
+import static musicgen.Event.*;
 
 
 //
@@ -68,6 +69,7 @@ public class EventIterator {
     
         if(event != null)
         {
+            // REWRITE THIS USING GetByPositionType !!!!
             searchEvent = eventLine.GetFirstEvent();
             EventNode searchEventNode  = null;
             
@@ -86,10 +88,117 @@ public class EventIterator {
                 }
             }
         }
-
 //        currentEvent = searchEvent;
         return searchEvent;
     }
+    public Event FindCorrespondingEventFromEventLineByPositionType(
+            Event relativeEvent, EventLine eventLine, 
+            PositionType positionType){
+        
+        Event searchEvent = null;
+        boolean foundIt = false;
+        
+        this.SetCurrent(relativeEvent);
+        
+        searchEvent = this.GetByPositionType(positionType);
+        
+        while(searchEvent != null && foundIt == false){
+            
+            if(searchEvent.HasReferenceToEventLine(eventLine)){
+                foundIt = true;
+            }
+            else {
+                searchEvent = this.GetByPositionType(positionType);
+            }
+        }
+        
+        return searchEvent;
+    }
+    
+//    
+//    public Event FindCorrespondingEventByPositionType(Event relativeEvent, 
+//            PositionType positionType){
+//        
+//        Event searchEvent = null;
+//        boolean foundIt = false;
+//        
+//        Event aggrSearchEvent = null;
+//        aggrSearchEvent = this.FindCorrespondingEvent(relativeEvent);        
+//        
+//        while(aggrSearchEvent!= null && foundIt == false){
+//            
+//            this.SetCurrent(aggrSearchEvent);  
+//            
+//            if(this.GetCurrent().HasReferenceToEventLine(relativeEvent.)){
+//                foundIt = true;
+//            }
+//            else{
+//                aggrSearchEvent = this.GetByPositionType(positionType);
+//            }
+//        }
+//        
+//        
+//        
+//        return searchEvent;
+//    }
+    
+    public void CreateEventRelativeToEvent(Event createEvent, 
+            Event relativeEvent, PositionType positionType){
+        
+        // get aggregate line reference
+        AggregateLine aggrLineRef = eventLine.GetAggregateLine();
+        EventIterator aggrIter = aggrLineRef.GetEventIterator();
+        
+        // does it need to use current event?
+        // if so, why?
+        // current event is the event this iterator uses as a relative reference
+        // this would provide what? a location, for the created event
+        // this location would be where an event would be created
+        // but the create event needs a relative event
+        // and this relative event would provide the location for the create event
+        // since the created event needs to be in relation to the relative event
+        
+        // find the position of the relative event on the aggregate
+        Event aggrSearchEvent = aggrIter.FindCorrespondingEvent(relativeEvent);
+        
+        aggrSearchEvent = 
+                aggrIter.FindCorrespondingEventFromEventLineByPositionType(
+                relativeEvent, eventLine, positionType);
+                
+        if(aggrSearchEvent != null){
+            
+            Event searchEvent =
+                    aggrSearchEvent.GetCorrespondingEventFromEventLine(eventLine);
+    
+            // current event would need to be located as near the relative event
+
+            // it would need to be inverse to the position type:
+            // for something to be created after the relative event,
+            // the created event would need to be created before a "current event"
+            //     but after a relative event
+            PositionType inversePosition = GetInverse(positionType);
+
+            EventIterator targetIter = GetIteratorAtEvent(searchEvent);
+
+            targetIter.CreateEventAtPosition(createEvent, inversePosition);     
+        }
+        else{
+            // if no "current event" is found, then position is irrelative, 
+            // beginning or end can be used, should be used???
+            
+            if(positionType == AFTER ){
+                this.CreateEventAtPosition(createEvent, END);
+            }
+            else if (positionType == BEFORE){
+                this.CreateEventAtPosition(createEvent, BEGINNING);
+            }
+        }
+        
+        // two operations: aggregate event created after the relative event
+        // created event before the "current event" on the target line
+    }
+    
+    
     
     /**
      * CreateEventAtPosition creates the event in the event line, 
