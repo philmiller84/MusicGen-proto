@@ -12,7 +12,7 @@ package musicgen;
  */
 public enum PositionType { BEGINNING, END, BEFORE, AFTER, AT, NEXT, PREV;
 
-    public static PositionType GetInverse(PositionType positionType){
+    public PositionType GetInverse(PositionType positionType){
 
         PositionType inverse = null;
 
