@@ -9,7 +9,6 @@ package musicgen;
 //  @ Author : Phil
 //
 
-
 public class EventLine {
     
 	private EventCollection eventCollection;
@@ -34,7 +33,6 @@ public class EventLine {
         public void SetAggregateLine(AggregateLine aggrLine)
         {
             this.aggregateLine = aggrLine;
-            this.aggregateLine.AddEventLineReference(this);
         }
         
         
@@ -50,7 +48,7 @@ public class EventLine {
             
             eventCollection.InsertIrrelative(insertEvent, positionType);
 	}
-	
+	 
 	public void Delete(Event e) {
             eventCollection.Delete(e);
 	}
