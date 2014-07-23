@@ -34,3 +34,15 @@ Icon
 # Files that might appear on external disk
 .Spotlight-V100
 .Trashes
+
+# Files that are backups
+*.~ml
+
+# NetBeans files and folders
+manifest.mf
+build.xml
+nbproject
+build
+
+
+
