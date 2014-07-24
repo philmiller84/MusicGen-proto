@@ -88,7 +88,7 @@ public class MusicGen {
 		// which keeps, i believe, returning the first and then last and then first and then last
 		// events in that iterator, ad infinitum, instead of iterating properly
 	
-		upperIter.dispenseEventsInIterators(lowerIter, BEGINNING);
+		upperIter.dispenseEventsInIterators(lowerIter, END);
 		
 		System.out.println(lowerIter.First());
         

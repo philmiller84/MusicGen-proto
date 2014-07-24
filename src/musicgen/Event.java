@@ -30,6 +30,16 @@ public class Event {
         referenceMap.AddReference(e);
     }       
     
+    public Event GetCorrespondingEventFromEventLine(EventLine eventLine){
+        Event correspondingEvent = null;
+        
+        if(referenceMap.ContainsEventLine(eventLine)){
+            correspondingEvent = 
+                    referenceMap.GetEventByLineName(eventLine.GetLineName());
+        }
+        
+        return correspondingEvent;
+    }
     public boolean HasReferenceToEvent(Event e){
         
         boolean foundReference = false;
@@ -37,6 +47,25 @@ public class Event {
         return foundReference;
     }
 	
+        
+    public boolean HasReferenceToEventLine(EventLine eventLine){
+    
+        boolean foundReference = false;
+        foundReference = referenceMap.ContainsEventLine(eventLine);
+        return foundReference;
+    }
+    
+    public static EventIterator GetIteratorAtEvent(Event e){
+        
+        EventLine eventLine = e.GetContainingNode().GetEventLine();
+
+        EventIterator eventIterator = null;
+        eventIterator = eventLine.GetEventIterator();
+        eventIterator.SetCurrent(e);
+        
+        return eventIterator;
+    }
+    
     public void Create() {
 	
     }	

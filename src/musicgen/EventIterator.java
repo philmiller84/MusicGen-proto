@@ -1,6 +1,7 @@
 package musicgen;
 
 import static musicgen.PositionType.*;
+import static musicgen.Event.*;
 
 import java.util.Iterator;
 
@@ -21,60 +22,147 @@ public class EventIterator {
 		this.eventLine = eventLine;
 	}
 
-	public Event FindEvent(Event event) {
+    public Event FindEvent(Event event) {
 
-		// THIS SHOULD BE MOVED TO AN INNER CLASS, PROBABLY STORAGE.
-		// KEEPING HERE FOR SAKE OF GETTING UP AND RUNNING QUICK.
-		// MOVE IT WHEN THERE IS TIME!
+        // THIS SHOULD BE MOVED TO AN INNER CLASS, PROBABLY STORAGE.
+        // KEEPING HERE FOR SAKE OF GETTING UP AND RUNNING QUICK.
+        // MOVE IT WHEN THERE IS TIME!
 
-		boolean foundIt = false;
-		Event searchEvent = null;
+        boolean foundIt = false;
+        Event searchEvent = null;
 
-		if (event != null) {
-			searchEvent = eventLine.GetFirstEvent();
-			EventNode searchEventNode = null;
+        if (event != null) {
+            searchEvent = eventLine.GetFirstEvent();
+            EventNode searchEventNode = null;
 
-			while ((searchEvent != null) && (foundIt == false)) {
-				if (searchEvent == event) {
-					foundIt = true;
-				} else {
-					searchEventNode = searchEvent.GetContainingNode();
+            while ((searchEvent != null) && (foundIt == false)) 
+            {
+                if (searchEvent == event)
+                {
+                        foundIt = true;
+                        
+                } else 
+                {
+                        searchEventNode = searchEvent.GetContainingNode();
 
-					searchEventNode = searchEventNode.GetNextNode();
-					searchEvent = searchEventNode.GetEvent();
-				}
-			}
-		}
+                        searchEventNode = searchEventNode.GetNextNode();
+                        searchEvent = searchEventNode.GetEvent();
+                }
+            }
+        }
 
-		// currentEvent = searchEvent;
-		return searchEvent;
-	}
+        // currentEvent = searchEvent;
+        return searchEvent;
+    }
 
-	public Event FindCorrespondingEvent(Event event) {
+    public Event FindCorrespondingEvent(Event event) {
 
-		boolean foundIt = false;
-		Event searchEvent = null;
+        boolean foundIt = false;
+        Event searchEvent = null;
 
-		if (event != null) {
-			searchEvent = eventLine.GetFirstEvent();
-			EventNode searchEventNode = null;
+        if (event != null) {
+            searchEvent = eventLine.GetFirstEvent();
+            EventNode searchEventNode = null;
 
-			while ((searchEvent != null) && (foundIt == false)) {
-				if (searchEvent.HasReferenceToEvent(event)) {
-					foundIt = true;
-				} else {
-					searchEventNode = searchEvent.GetContainingNode();
+            while ((searchEvent != null) && (foundIt == false)) 
+            {
+                if (searchEvent.HasReferenceToEvent(event)) 
+                {
+                    foundIt = true;
+                } else 
+                {
+                    searchEventNode = searchEvent.GetContainingNode();
 
-					searchEventNode = searchEventNode.GetNextNode();
-					searchEvent = searchEventNode.GetEvent();
-				}
-			}
-		}
+                    searchEventNode = searchEventNode.GetNextNode();
+                    searchEvent = searchEventNode.GetEvent();
+                }
+            }
+        }
 
-		// currentEvent = searchEvent;
-		return searchEvent;
-	}
+        // currentEvent = searchEvent;
+        return searchEvent;
+    }
+    
+    public Event FindCorrespondingEventFromEventLineByPositionType(
+            Event relativeEvent, EventLine eventLine, 
+         PositionType positionType){
 
+        Event searchEvent = null;
+        boolean foundIt = false;
+        
+        this.SetCurrent(relativeEvent);
+        
+        searchEvent = this.GetByPositionType(positionType);
+        
+        while(searchEvent != null && foundIt == false){
+            
+            if(searchEvent.HasReferenceToEventLine(eventLine)){
+                foundIt = true;
+            }
+            else {
+                searchEvent = this.GetByPositionType(positionType);
+            }
+        }
+        
+        return searchEvent;
+    }
+
+    public void CreateEventRelativeToEvent(Event createEvent, 
+            Event relativeEvent, PositionType positionType){
+        
+        // get aggregate line reference
+        AggregateLine aggrLineRef = eventLine.GetAggregateLine();
+        EventIterator aggrIter = aggrLineRef.GetEventIterator();
+        
+        // does it need to use current event?
+        // if so, why?
+        // current event is the event this iterator uses as a relative reference
+        // this would provide what? a location, for the created event
+        // this location would be where an event would be created
+        // but the create event needs a relative event
+        // and this relative event would provide the location for the create event
+        // since the created event needs to be in relation to the relative event
+        
+        // find the position of the relative event on the aggregate
+        Event aggrSearchEvent = aggrIter.FindCorrespondingEvent(relativeEvent);
+        
+        aggrSearchEvent = 
+                aggrIter.FindCorrespondingEventFromEventLineByPositionType(
+                relativeEvent, eventLine, positionType);
+                
+        if(aggrSearchEvent != null){
+            
+            Event searchEvent =
+                    aggrSearchEvent.GetCorrespondingEventFromEventLine(eventLine);
+    
+            // current event would need to be located as near the relative event
+
+            // it would need to be inverse to the position type:
+            // for something to be created after the relative event,
+            // the created event would need to be created before a "current event"
+            //     but after a relative event
+            PositionType inversePosition = GetInverse(positionType);
+
+            EventIterator targetIter = GetIteratorAtEvent(searchEvent);
+
+            targetIter.CreateEventAtPosition(createEvent, inversePosition);     
+        }
+        else{
+            // if no "current event" is found, then position is irrelative, 
+            // beginning or end can be used, should be used???
+            
+            if(positionType == AFTER ){
+                this.CreateEventAtPosition(createEvent, END);
+            }
+            else if (positionType == BEFORE){
+                this.CreateEventAtPosition(createEvent, BEGINNING);
+            }
+        }
+        
+        // two operations: aggregate event created after the relative event
+        // created event before the "current event" on the target line
+    }
+        
 	/**
 	 * CreateEventAtPosition creates the event in the event line, then adds it
 	 * to the aggregate line for positioning
@@ -85,63 +173,72 @@ public class EventIterator {
 	 * @param e
 	 * @param positionType
 	 */
-	public void CreateEventAtPosition(Event e, PositionType positionType) {
+    public void CreateEventAtPosition(Event e, PositionType positionType) {
 
-		// get aggregate line reference
-		AggregateLine aggrLineRef = eventLine.GetAggregateLine();
+        // get aggregate line reference
+        AggregateLine aggrLineRef = eventLine.GetAggregateLine();
 
-		if ((positionType == AFTER) || (positionType == BEFORE)
-				|| (positionType == AT)) {
-			if (currentEvent != null) {
-				eventLine.InsertRelative(e, currentEvent, positionType);
+        if ((positionType == AFTER) || 
+                (positionType == BEFORE) ||
+                 (positionType == AT)) 
+        {
+            if (currentEvent != null) 
+            {
+                eventLine.InsertRelative(e, currentEvent, positionType);
 
-				// find location in aggregate
-				EventIterator aggrIter;
-				Event searchEvent;
+                // find location in aggregate
+                EventIterator aggrIter;
+                Event searchEvent;
 
-				aggrIter = aggrLineRef.GetEventIterator();
-				searchEvent = aggrIter.FindCorrespondingEvent(currentEvent);
+                aggrIter = aggrLineRef.GetEventIterator();
+                searchEvent = aggrIter.FindCorrespondingEvent(currentEvent);
 
-				if (searchEvent != null) {
-					// call Add on aggregate
-					aggrIter.SetCurrent(searchEvent);
-					if (positionType == AT) {
-						// add reference to current event
-						searchEvent.AddReferenceToEvent(e);
-					}
-					if ((positionType == AFTER) || (positionType == BEFORE)) {
-						// create new aggregate
-						AggregateEvent newAggrEvent = new AggregateEvent(e);
-						aggrIter.AddEventAtPosition(newAggrEvent, positionType);
-					}
-				}
-			} else {
-				// error. WHAT TO DO? Will want to see this fail in testing,
-				// but then what use cases would want this to do something?
-			}
-		} else if ((positionType == BEGINNING) || positionType == END) {
-			eventLine.InsertIrrelative(e, positionType);
-			if (aggrLineRef != null) {
-				AggregateEvent newAggrEvent = new AggregateEvent(e);
-				aggrLineRef.InsertIrrelative(newAggrEvent, positionType);
-			}
-		}
-	}
+                if (searchEvent != null) 
+                {
+                    // call Add on aggregate
+                    aggrIter.SetCurrent(searchEvent);
+                    if (positionType == AT) {
+                        // add reference to current event
+                        searchEvent.AddReferenceToEvent(e);
+                    }
+                    if ((positionType == AFTER) || 
+                            (positionType == BEFORE)) {
+                        // create new aggregate
+                        AggregateEvent newAggrEvent = new AggregateEvent(e);
+                        aggrIter.AddEventAtPosition(newAggrEvent, positionType);
+                    }
+                }
+            }
+            else 
+            {
+                // error. WHAT TO DO? Will want to see this fail in testing,
+                // but then what use cases would want this to do something?
+            }
+        } 
+        else if ((positionType == BEGINNING) || positionType == END) {
 
-	public void AddEventAtPosition(Event e, PositionType positionType) {
+            eventLine.InsertIrrelative(e, positionType);
+            if (aggrLineRef != null) 
+            {
+                    AggregateEvent newAggrEvent = new AggregateEvent(e);
+                    aggrLineRef.InsertIrrelative(newAggrEvent, positionType);
+            }
+        }
+    }
 
-		if ((positionType == AFTER) || positionType == BEFORE) {
-			if (currentEvent != null) {
-				eventLine.InsertRelative(e, currentEvent, positionType);
-			} else {
-				// error. WHAT TO DO? Will want to see this fail in testing,
-				// but then what use cases would want this to do something?
-			}
-		} else if ((positionType == BEGINNING) || positionType == END) {
-			eventLine.InsertIrrelative(e, positionType);
-		}
+    public void AddEventAtPosition(Event e, PositionType positionType) {
 
-	}
+        if ((positionType == AFTER) || positionType == BEFORE) {
+            if (currentEvent != null) {
+                    eventLine.InsertRelative(e, currentEvent, positionType);
+            } else {
+                    // error. WHAT TO DO? Will want to see this fail in testing,
+                    // but then what use cases would want this to do something?
+            }
+        } else if ((positionType == BEGINNING) || positionType == END) {
+                eventLine.InsertIrrelative(e, positionType);
+        }
+    }
 
 	public void SetCurrent(Event e) {
 

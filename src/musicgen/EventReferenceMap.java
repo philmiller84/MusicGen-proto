@@ -52,6 +52,22 @@ public class EventReferenceMap {
         return containsEvent;
     }
 
+    public boolean ContainsEventLine(EventLine eventLine){
+        boolean containsEventLine = false;
+        
+        for (Iterator<ReferenceKey> it = map.keySet().iterator(); 
+                it.hasNext() && containsEventLine == false;) {
+            
+            ReferenceKey key = it.next();
+            
+            if(key.GetEventLine()== eventLine)
+            {
+                containsEventLine = true;
+            }
+        }
+        return containsEventLine;
+    }
+    
     public Event GetEventByLineName(String lineName){
         
         Event searchEvent = null;
